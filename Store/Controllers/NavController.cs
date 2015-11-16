@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Domain.Abstract;
 
 namespace Store.Controllers
 {
     public class NavController : Controller
     {
-        public string Menu()
+        private IProductRepository _repository;
+        public NavController(IProductRepository rep)
         {
-            return "Hello from NavController";
+            _repository = rep;
+        }
+        public PartialViewResult Menu(string category = null)
+        {
+            ViewBag.SelectedCategory = category;
+            IEnumerable<string> categories = _repository.Products
+                .Select(x => x.Category)
+                .Distinct()                
+                .OrderBy(x => x);
+            return PartialView(categories);
+
         }
 
     }
