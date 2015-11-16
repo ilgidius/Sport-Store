@@ -19,6 +19,7 @@ namespace Store.Controllers
             }
             public ViewResult List(string category, int page=1)
             {
+                //Get list of products
                 ProductsListViewModel model = new ProductsListViewModel
                 {
                     Products = _repository.Products
